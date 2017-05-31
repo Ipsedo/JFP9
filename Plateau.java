@@ -68,4 +68,17 @@ public class Plateau {
 		}
 		return tmp.toArray(new Direction[tmp.size()]);
 	}
+	
+	@Override
+	public String toString() {
+		String r = "";
+		for (int i = 0; i < L; i++) {
+			for (int j = 0; j < C; j++) {
+				r += plateau[i][j] + "|";
+			}
+			r += "\n";
+		}
+		return r;
+	}
+	
 }
