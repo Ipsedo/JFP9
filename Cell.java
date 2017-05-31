@@ -20,4 +20,10 @@ public class Cell {
 	public char getCellState() {
 		return this.cellState;
 	}
+	
+	@Override
+	public String toString() {
+		return Character.toString(cellState);
+	}
+	
 }
