@@ -14,7 +14,7 @@ public class Plateau {
 		UP, DOWN, LEFT, RIGHT
 	};
 
-	private Plateau(Scanner scan) {
+	public Plateau(Scanner scan) {
 		this.inti(scan);
 	}
 
@@ -56,5 +56,10 @@ public class Plateau {
 
 	private boolean isCorrectMove(int joueur, Plateau.Move move) {
 		return false;
+	}
+	
+	public Plateau.Move[] mouvementsPossibles(int joueur) {
+		ArrayList<Plateau.Move> tmp = new ArrayList<Plateau.Move>();
+		return tmp.toArray(new Plateau.Move[tmp.size()]);
 	}
 }
