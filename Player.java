@@ -23,4 +23,12 @@ public class Player {
 		this.linePos += move.dJ();
 		this.columnPos += move.dI();
 	}
+	
+	public int getLine() {
+		return this.linePos;
+	}
+	
+	public int getColumn() {
+		return this.columnPos;
+	}
 }
