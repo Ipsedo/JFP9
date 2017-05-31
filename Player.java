@@ -15,8 +15,8 @@ public class Player {
 		this.power = power;
 		this.score = score;
 		this.nbCodeSource = nbCodeSource;
-		this.i = linePos;
-		this.j = columnPos;
+		this.i = columnPos;
+		this.j = linePos;
 	}
 
 	public void move(Direction move) {
