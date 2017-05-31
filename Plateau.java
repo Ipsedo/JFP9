@@ -83,6 +83,36 @@ public class Plateau {
 	public int getNbTour() {
 		return nbTour;
 	}
+	
+	public Cell findH(){
+		for(int i=0;i<this.L;i++){
+			for(int j=0;j<this.C;j++){
+				if(this.plateau[i][j].getCellState() == 'H'){
+					return this.plateau[i][j];
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Direction CheminDeLanco(){
+		Cell bonbon = this.findH();
+		ArrayList<Direction> tmp = new ArrayList<Direction>();
+		
+		if(this.joueurs[0].getI()>bonbon.getI()){
+			tmp.add(Direction.UP);
+		}
+		if(this.joueurs[0].getI()<bonbon.getI()){
+			tmp.add(Direction.DOWN);
+		}
+		if(this.joueurs[0].getJ()>bonbon.getJ()){
+			tmp.add(Direction.LEFT);
+		}
+		if(this.joueurs[0].getJ()<bonbon.getJ()){
+			tmp.add(Direction.RIGHT);
+		}
+		//////////////////////////////////////
+	}
 
 	
 	@Override
