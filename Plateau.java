@@ -28,7 +28,8 @@ public class Plateau {
 			this.joueurs[i] = new Player(lineCut[0],
 					Integer.parseInt(lineCut[1]), Integer.parseInt(lineCut[2]),
 					Integer.parseInt(lineCut[3]), Integer.parseInt(lineCut[4]),
-					Integer.parseInt(lineCut[5]), Integer.parseInt(lineCut[6]));
+					Integer.parseInt(lineCut[5]), Integer.parseInt(lineCut[6]),
+					Integer.parseInt(lineCut[7]));
 		}
 		line = scan.nextLine();
 		lineCut = line.split(" ");
@@ -46,7 +47,7 @@ public class Plateau {
 				if(cell.length>1){
 					for(int k=1;k<cell.length;k++){
 						String[] celltmp = cell[k].split(",");
-						this.BombeTab.add(new Bombe(Integer.parseInt(celltmp[0]), Integer.parseInt(celltmp[1]), Integer.parseInt(celltmp[2])));
+						this.BombeTab.add(new Bombe(Integer.parseInt(celltmp[0]), Integer.parseInt(celltmp[1]), Integer.parseInt(celltmp[2]),i,j));
 					}
 				}
 			}
