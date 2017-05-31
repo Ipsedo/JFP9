@@ -9,6 +9,7 @@ public class Plateau {
 	private Player[] joueurs;
 	private int L;
 	private int C;
+	private ArrayList<Bombe> BombeTab;
 
 	public Plateau(Scanner scan) {
 		this.inti(scan);
@@ -34,11 +35,20 @@ public class Plateau {
 		this.L = Integer.parseInt(lineCut[0]);
 		this.C = Integer.parseInt(lineCut[1]);
 		this.plateau = new Cell[this.L][this.C];
+		this.BombeTab = new ArrayList<Bombe>();
 		for (int i = 0; i < this.L; i++) {
 			line = scan.nextLine();
 			lineCut = line.split("\\|");
 			for (int j = 0; j < this.C; j++) {
-				this.plateau[i][j] = new Cell(lineCut[j + 1].toCharArray()[0]);
+				
+				String[] cell  = lineCut[j + 1].split("/");
+				this.plateau[i][j] = new Cell((cell[0]).toCharArray()[0]);
+				if(cell.length>1){
+					for(int k=1;k<cell.length;k++){
+						String[] celltmp = cell[k].split(",");
+						this.BombeTab.add(new Bombe(Integer.parseInt(celltmp[0]), Integer.parseInt(celltmp[1]), Integer.parseInt(celltmp[2])));
+					}
+				}
 			}
 		}
 		scan.nextLine();
