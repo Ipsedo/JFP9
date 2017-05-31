@@ -5,7 +5,7 @@ public class Plateau {
 
 	private Cell[][] plateau;
 	private int nbPlayer;
-	private String nbTour;
+	private int nbTour;
 	private Player[] joueurs;
 	private int L;
 	private int C;
@@ -20,7 +20,7 @@ public class Plateau {
 		String line = scan.nextLine();
 		String[] lineCut = line.split(" ");
 		this.nbPlayer = Integer.parseInt(lineCut[0]);
-		this.nbTour = lineCut[1];
+		this.nbTour = Integer.parseInt(lineCut[1]);
 		this.joueurs = new Player[this.nbPlayer];
 		for (int i = 0; i < this.nbPlayer; i++) {
 			line = scan.nextLine();
@@ -43,7 +43,7 @@ public class Plateau {
 			for (int j = 0; j < this.C; j++) {
 				
 				String[] cell  = lineCut[j + 1].split("/");
-				this.plateau[i][j] = new Cell((cell[0]).toCharArray()[0]);
+				this.plateau[i][j] = new Cell((cell[0]).toCharArray()[0], i, j);
 				if(cell.length>1){
 					for(int k=1;k<cell.length;k++){
 						String[] celltmp = cell[k].split(",");
@@ -80,6 +80,11 @@ public class Plateau {
 		return tmp.toArray(new Direction[tmp.size()]);
 	}
 	
+	public int getNbTour() {
+		return nbTour;
+	}
+
+	
 	@Override
 	public String toString() {
 		String r = "";
@@ -91,5 +96,89 @@ public class Plateau {
 		}
 		return r;
 	}
+   private ArrayList<Cell> findVoisins(Cell c) {
+        ArrayList<Cell> tmp = new ArrayList<>();
+        for (Direction d : Direction.getAllDirection()) {
+            if (this.plateau[c.getI() + d.dI()][c
+                    .getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+                    || this.plateau[c.getI() + d.dI()][c
+                            .getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+                    || this.plateau[c.getI() + d.dI()][c
+                            .getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+                tmp.add(this.plateau[c.getI() + d.dI()][c.getJ() + d.dJ()]);
+            }
+        }
+        return tmp;
+    }
+   
+    private void initDijkstra(int i, int j) {
+        for(Cell[] cL : this.plateau)
+            for(Cell c : cL) {
+                c.setPredecesseurDijkstra(null);
+                c.setWeightDijkstra(Integer.MAX_VALUE);
+            }
+    }
+   
+    private Cell findMinDijkstra(ArrayList<Cell> frontiere) {
+        int min = Integer.MAX_VALUE;
+        Cell res = frontiere.get(0);
+        for(Cell c : frontiere) {
+            if(c.getWeight() < min) {
+                min = c.getWeight();
+                res = c;
+            }
+        }
+        return res;
+    }
+   
+    private void majDistDijkstra(Cell s1, Cell s2) {
+        if(s2.getWeight() > s1.getWeight() + 1) {
+            s2.setWeightDijkstra(s1.getWeight() + 1);
+            s2.setPredecesseurDijkstra(s1);
+        }
+    }
+   
+    private Direction dijkstra(int iInit, int jInit, int iFinal, int jFinal) {
+        this.initDijkstra(iInit, jInit);
+        ArrayList<Cell> ens = new ArrayList<>();
+        for(int i = 0; i < this.plateau.length; i++) {
+            for(int j = 0; j < this.plateau[i].length; j++) {
+                ens.add(this.plateau[i][j]);
+            }
+        }
+        while(!ens.isEmpty()) {
+            Cell s1 =  this.findMinDijkstra(ens);
+            ens.remove(s1);
+            ArrayList<Cell> voisins = this.findVoisins(s1);
+            for(Cell s2 : voisins) {
+                this.majDistDijkstra(s1, s2);
+                if(s2.getI() == iFinal && s2.getJ() == jFinal) {
+                    Cell parent = s2.getPredecesseur();
+                    while(parent != null) {
+                        s2 = parent;
+                        parent = s2.getPredecesseur();
+                    }
+                    return this.plateau[iInit][jInit].getDirection(s2);
+                }
+            }
+        }
+        return Direction.NOP;
+    }
+   
+    public Direction getPathToBonus(int joueur) {
+        int iInit = this.joueurs[joueur].getI();
+        int jInit = this.joueurs[joueur].getJ();
+        int iBonusPuissance = 0;
+        int jBonusPuissance = 0;
+        for(int i = 0; i < this.plateau.length; i++) {
+            for(int j = 0; j < this.plateau[i].length; j++) {
+                if(this.plateau[i][j].getCellState() == Cell.POWER_BONUS) {
+                    iBonusPuissance = i;
+                    jBonusPuissance = j;
+                }
+            }
+        }
+        return this.dijkstra(iInit, jInit, iBonusPuissance, jBonusPuissance);
+    }
 	
 }
