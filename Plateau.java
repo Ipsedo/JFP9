@@ -41,6 +41,7 @@ public class Plateau {
 				this.plateau[i][j] = new Cell(lineCut[j + 1].toCharArray()[0]);
 			}
 		}
+		scan.nextLine();
 	}
 
 	public void move(int joueur, Direction move) {
