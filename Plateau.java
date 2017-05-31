@@ -1,56 +1,55 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Plateau {
 
-	private ArrayList<Player> players;
-	private int toursRestants;
-	private int lineSize;
-	private int columnSize;
-
 	private Cell[][] plateau;
+	private int nbPlayer;
+	private String nbTour;
+	private Player[] joueurs;
+	private int L;
+	private int C;
 
 	public enum Move {
 		UP, DOWN, LEFT, RIGHT
 	};
 
-	private Plateau(ArrayList<Player> players, int tourRestants, int lineSize,
-			int columnSize) {
-		this.players = players;
-		this.toursRestants = tourRestants;
-		this.lineSize = lineSize;
-		this.columnSize = columnSize;
+	private Plateau() {
 	}
-	
-	public void inti(Scanner scan){
-		
+
+	public void inti(Scanner scan) {
+
 		String line = scan.nextLine();
 		System.out.println(line);
 		String[] lineCut = line.split(" ");
-		this.nbPlayer = lineCut[0];
+		this.nbPlayer = Integer.parseInt(lineCut[0]);
 		this.nbTour = lineCut[1];
-		this.joueures = new Player[this.nbPlayer];
-		for(int i=0;i<this.nbPlayer;i++){
+		this.joueurs = new Player[this.nbPlayer];
+		for (int i = 0; i < this.nbPlayer; i++) {
 			line = scan.nextLine();
 			lineCut = line.split(" ");
-			this.joueures[i] = new Player(lineCut[0],lineCut[1],lineCut[2],lineCut[3],lineCut[4],lineCut[5],lineCut[6]);
+			this.joueurs[i] = new Player(lineCut[0],
+					Integer.parseInt(lineCut[1]), Integer.parseInt(lineCut[2]),
+					Integer.parseInt(lineCut[3]), Integer.parseInt(lineCut[4]),
+					Integer.parseInt(lineCut[5]), Integer.parseInt(lineCut[6]));
 		}
 		line = scan.nextLine();
 		lineCut = line.split(" ");
-		this.L = lineCut[0];
-		this.C = lineCut[1];
-		this.plateau = new Plateau[this.L][this.C];
-		for(int i=0;i<this.L; i++){
+		this.L = Integer.parseInt(lineCut[0]);
+		this.C = Integer.parseInt(lineCut[1]);
+		this.plateau = new Cell[this.L][this.C];
+		for (int i = 0; i < this.L; i++) {
 			line = scan.nextLine();
 			lineCut = line.split("|");
-			for(int j = 0;j<this.C; j++){
-				this.plateau[i][j] = new Cell(lineCut[j+1]);
+			for (int j = 0; j < this.C; j++) {
+				this.plateau[i][j] = new Cell(lineCut[j + 1].toCharArray()[0]);
 			}
 		}
 	}
 
 	public void move(int joueur, Plateau.Move move) {
 		if (this.isCorrectMove(joueur, move)) {
-			this.players.get(joueur).move(move);
+			this.joueurs[joueur].move(move);
 		}
 	}
 
