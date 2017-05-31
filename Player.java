@@ -5,8 +5,8 @@ public class Player {
 	private int power;
 	private int score;
 	private int nbCodeSource;
-	private int linePos;
-	private int columnPos;
+	private int i;
+	private int j;
 
 	public Player(String name, int productivity, int power, int score,
 			int nbCodeSource, int linePos, int columnPos) {
@@ -15,20 +15,20 @@ public class Player {
 		this.power = power;
 		this.score = score;
 		this.nbCodeSource = nbCodeSource;
-		this.linePos = linePos;
-		this.columnPos = columnPos;
+		this.i = linePos;
+		this.j = columnPos;
 	}
 
 	public void move(Direction move) {
-		this.linePos += move.dJ();
-		this.columnPos += move.dI();
+		this.i += move.dI();
+		this.j += move.dJ();
 	}
 	
-	public int getLine() {
-		return this.linePos;
+	public int getI() {
+		return this.i;
 	}
 	
-	public int getColumn() {
-		return this.columnPos;
+	public int getJ() {
+		return this.j;
 	}
 }

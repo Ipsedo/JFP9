@@ -56,12 +56,12 @@ public class Plateau {
 	public Direction[] mouvementsPossibles(int joueur) {
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
 		for (Direction d : Direction.getAllDirection()) {
-			if (this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
-					.getLine() + d.dJ()].getCellState() == Cell.FREE_CELL
-					|| this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
-							.getLine() + d.dJ()].getCellState() == Cell.POWER_BONUS
-					|| this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
-							.getLine() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+			if (this.plateau[this.joueurs[joueur].getI() + d.dI()][this.joueurs[joueur]
+					.getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[joueur].getI() + d.dI()][this.joueurs[joueur]
+							.getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[joueur].getI() + d.dI()][this.joueurs[joueur]
+							.getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
 				tmp.add(d);
 			}
 		}
