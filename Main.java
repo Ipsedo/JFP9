@@ -21,11 +21,17 @@ public class Main {
 		switch (args[1]) {
 		
 		case "epreuve1":
-			System.out.println( "ep1");
+			
+			Plateau p = new Plateau(scan);
+			
+			Direction[] m = p.mouvementsPossibles(0);
+			
+			System.out.println(m[(int)(Math.random()*m.length)]);
+			
 			break;
 			
 		}
-		
+
 		scan.close();
 		
 	}
