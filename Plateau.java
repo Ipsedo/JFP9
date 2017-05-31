@@ -10,10 +10,6 @@ public class Plateau {
 	private int L;
 	private int C;
 
-	public enum Move {
-		UP, DOWN, LEFT, RIGHT
-	};
-
 	public Plateau(Scanner scan) {
 		this.inti(scan);
 	}
@@ -48,18 +44,18 @@ public class Plateau {
 		}
 	}
 
-	public void move(int joueur, Plateau.Move move) {
+	public void move(int joueur, Direction move) {
 		if (this.isCorrectMove(joueur, move)) {
 			this.joueurs[joueur].move(move);
 		}
 	}
 
-	private boolean isCorrectMove(int joueur, Plateau.Move move) {
+	private boolean isCorrectMove(int joueur, Direction move) {
 		return false;
 	}
 	
-	public Plateau.Move[] mouvementsPossibles(int joueur) {
-		ArrayList<Plateau.Move> tmp = new ArrayList<Plateau.Move>();
-		return tmp.toArray(new Plateau.Move[tmp.size()]);
+	public Direction[] mouvementsPossibles(int joueur) {
+		ArrayList<Direction> tmp = new ArrayList<Direction>();
+		return tmp.toArray(new Direction[tmp.size()]);
 	}
 }

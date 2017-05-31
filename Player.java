@@ -19,16 +19,8 @@ public class Player {
 		this.columnPos = columnPos;
 	}
 
-	public void move(Plateau.Move move) {
-		switch (move) {
-		case UP:
-			break;
-		case DOWN:
-			break;
-		case RIGHT:
-			break;
-		case LEFT:
-			break;
-		}
+	public void move(Direction move) {
+		this.linePos += move.dJ();
+		this.columnPos += move.dI();
 	}
 }
