@@ -96,20 +96,19 @@ public class Plateau {
 		}
 		return r;
 	}
-   private ArrayList<Cell> findVoisins(Cell c) {
-        ArrayList<Cell> tmp = new ArrayList<>();
-        for (Direction d : Direction.getAllDirection()) {
-            if (this.plateau[c.getI() + d.dI()][c
-                    .getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
-                    || this.plateau[c.getI() + d.dI()][c
-                            .getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
-                    || this.plateau[c.getI() + d.dI()][c
-                            .getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
-                tmp.add(this.plateau[c.getI() + d.dI()][c.getJ() + d.dJ()]);
-            }
-        }
-        return tmp;
-    }
+	private ArrayList<Cell> findVoisins(Cell c) {
+		ArrayList<Cell> tmp = new ArrayList<>();
+		for (Direction d : Direction.getAllDirection()) {
+			int i = c.getI() + d.dI();
+			int j = c.getJ() + d.dJ();
+			if (i >= 0 && i < this.plateau.length && j >= 0 && j < this.plateau[i].length && (this.plateau[i][j].getCellState() == Cell.FREE_CELL
+					|| this.plateau[i][j].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[i][j].getCellState() == Cell.PRODUC_BONUS)) {
+				tmp.add(this.plateau[i][j]);
+			}
+		}
+		return tmp;
+	}
    
     private void initDijkstra(int i, int j) {
         for(Cell[] cL : this.plateau)
@@ -138,6 +137,7 @@ public class Plateau {
         }
     }
    
+      
     private Direction dijkstra(int iInit, int jInit, int iFinal, int jFinal) {
         this.initDijkstra(iInit, jInit);
         ArrayList<Cell> ens = new ArrayList<>();
@@ -155,6 +155,7 @@ public class Plateau {
                 if(s2.getI() == iFinal && s2.getJ() == jFinal) {
                     Cell parent = s2.getPredecesseur();
                     while(parent != null) {
+                    	System.out.println("(" + s2.getI() + ", " + s2.getJ() + ")");
                         s2 = parent;
                         parent = s2.getPredecesseur();
                     }
