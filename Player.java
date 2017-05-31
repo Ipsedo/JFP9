@@ -9,14 +9,14 @@ public class Player {
 	private int j;
 
 	public Player(String name, int productivity, int power, int score,
-			int nbCodeSource, int linePos, int columnPos) {
+			int nbCodeSource, int i, int j) {
 		this.name = name;
 		this.productivity = productivity;
 		this.power = power;
 		this.score = score;
 		this.nbCodeSource = nbCodeSource;
-		this.i = columnPos;
-		this.j = linePos;
+		this.i = i;
+		this.j = j;
 	}
 
 	public void move(Direction move) {
