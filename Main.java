@@ -5,6 +5,8 @@ public class Main {
 
 	public static void main(String args[]) {
 		
+		// Send the name
+		
 		Scanner scan = new Scanner(System.in);
 		String line = scan.nextLine();
 		
@@ -12,7 +14,17 @@ public class Main {
 			System.out.println("JFPDIX");
 		}
 		
-		System.out.println("End.");
+		// CHeck for the challenge
+		if (args.length < 2) {
+			return;
+		}
+		switch (args[1]) {
+		
+		case "epreuve1":
+			System.out.println( "ep1");
+			break;
+			
+		}
 		
 		scan.close();
 		
