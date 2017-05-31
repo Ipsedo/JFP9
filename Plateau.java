@@ -62,8 +62,53 @@ public class Plateau {
 	}
 
 	private boolean isCorrectMove(int joueur, Direction move) {
+
+		int newI = joueurs[joueur].getI() + move.dI();
+		int newJ = joueurs[joueur].getJ() + move.dI();
+		
+		if (plateau[newI][newJ].getCellState() == Cell.FREE_CELL ||
+				plateau[newI][newJ].getCellState() == Cell.POWER_BONUS ||
+				plateau[newI][newJ].getCellState() == Cell.PRODUC_BONUS) {
+			return true;
+		}
+		
 		return false;
 	}
+	
+	public Direction goInSafePlace(int joueur) {    	
+    	Player p = this.joueurs[joueur];
+    	
+    	for(Bombe b : this.BombeTab) {
+    		if(p.getI() > 0 && b.isInDanger(p.getI() - 1, p.getJ()) && this.isCorrectMove(joueur, Direction.UP)) {
+    			return Direction.UP;
+    		} else if(p.getI() < this.plateau.length - 1 && b.isInDanger(p.getI() + 1, p.getJ()) && this.isCorrectMove(joueur, Direction.DOWN)) {
+    			return Direction.DOWN;
+    		} else if(p.getJ() > 0 && b.isInDanger(p.getI(), p.getJ() - 1) && this.isCorrectMove(joueur, Direction.LEFT)) {
+    			return Direction.LEFT;
+    		} else if(p.getJ() < this.plateau[p.getI()].length && b.isInDanger(p.getI(), p.getJ() + 1) && this.isCorrectMove(joueur, Direction.RIGHT)) {
+    			return Direction.RIGHT;
+    		}
+    	}
+    	
+    	for(Bombe b : this.BombeTab) {
+    		int dX = b.getI() - p.getI();
+    		int dY = b.getJ() - p.getJ();
+    		if(Math.abs(dX) > Math.abs(dY)) {
+    			if(dX > 0 && this.isCorrectMove(joueur, Direction.DOWN)) {
+    				return Direction.DOWN;
+    			} else if(this.isCorrectMove(joueur, Direction.UP)) {
+    				return Direction.UP;
+    			}
+    		} else {
+    			if(dY > 0 && this.isCorrectMove(joueur, Direction.RIGHT)) {
+    				return Direction.RIGHT;
+    			} else if(this.isCorrectMove(joueur, Direction.LEFT)) {
+    				return Direction.LEFT;
+    			}
+    		}
+    	}
+    	return Direction.NOP;
+    }
 
 	public Direction[] mouvementsPossibles(int joueur) {
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
@@ -94,8 +139,8 @@ public class Plateau {
 		}
 		return null;
 	}
-	/*
-	public Direction CheminDeLanco(){
+	
+	public Direction[] CheminDeLanco(){
 		Cell bonbon = this.findH();
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
 		
@@ -143,9 +188,8 @@ public class Plateau {
 				tmp.add(d);
 			}
 		}
-		Object[] d = tmp.toArray();
-		return (Direction)d[(int)(Math.random()*d.length)];
-	}*/
+		return tmp.toArray(new Direction[tmp.size()]);
+	}
 
 	
 	@Override
@@ -204,7 +248,7 @@ public class Plateau {
     }
    
       
-    private Direction dijkstra(int iInit, int jInit, int iFinal, int jFinal) {
+    private String dijkstra(int iInit, int jInit, int iFinal, int jFinal) {
         this.initDijkstra(iInit, jInit);
         ArrayList<Cell> ens = new ArrayList<>();
         for(int i = 0; i < this.plateau.length; i++) {
@@ -219,27 +263,31 @@ public class Plateau {
             for(Cell s2 : voisins) {
                 this.majDistDijkstra(s1, s2);
                 if(s2.getI() == iFinal && s2.getJ() == jFinal) {
-                	
                     Cell parent = s2.getPredecesseur();
-                    
-                    
-                    
-                    
                     while(parent.getPredecesseur() != null) {
                         s2 = parent;
                         parent = s2.getPredecesseur();
                     }
-                    return this.plateau[iInit][jInit].getDirection(s2);
+                    System.out.println("Dji");
+                    return this.plateau[iInit][jInit].getDirection(s2).toString();
                 }
-                
-                
-                
             }
         }
-        return Direction.NOP;
+        
+        // If dijiksdktrta failed then we call Lanco
+        Direction[] ds = CheminDeLanco();
+        
+        if (ds.length == 0) {
+        	
+        	// Put a bomb
+        	return "DEPLOY";
+        	
+        } else {
+        	return ds[(int)(Math.random()*ds.length)].toString();
+        }
     }
    
-    public Direction getPathToBonus(int joueur) {
+    public String getPathToBonus(int joueur) {
         int iInit = this.joueurs[joueur].getI();
         int jInit = this.joueurs[joueur].getJ();
         int iBonusPuissance = 0;
@@ -253,6 +301,10 @@ public class Plateau {
             }
         }
         return this.dijkstra(iInit, jInit, iBonusPuissance, jBonusPuissance);
+    }
+    
+    public ArrayList<Bombe> getNbBombe() {
+    	return BombeTab;
     }
 	
 }

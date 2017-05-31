@@ -56,6 +56,37 @@ public class Main {
 			
 			break;
 			
+		case "epreuve3":
+			
+			// Send the name
+			scan = new Scanner(System.in);
+			line = scan.nextLine();
+			scan.nextLine();
+			
+			if (line.equals("NAME?")) {
+				System.out.println("JFPDIX");
+			}
+			
+			do {
+				
+				p = new Plateau(scan);
+				
+				if (p.getNbBombe().size() > 0) {
+					
+					// Go far from bomb
+					System.out.println("Bomb : " + p.goInSafePlace(0));
+					
+					
+				} else {
+					System.out.println("Pabombe" + p.getPathToBonus(0));
+				}
+				
+				
+				
+			} while (p.getNbTour() > 0);
+			
+			break;
+			
 		case "battle":
 			
 			// TODO

@@ -14,16 +14,24 @@ public class Bombe {
 		this.nbTour=nbTour;
 	}
 	
-	public boolean isInDanger(Player player){
-		if(this.i == player.getI()){
-			if(this.j+this.power>= player.getJ() && this.j-this.power<=player.getJ()){
+	public boolean isInDanger(int i, int j){
+		if(this.i == i){
+			if(this.j+this.power>= j && this.j-this.power<=j){
 				return true;
 			}
-		}else if(this.j == player.getJ()){
-			if(this.i+this.power>= player.getJ() && this.i-this.power<=player.getJ()){
+		}else if(this.j == j){
+			if(this.i+this.power>= i && this.i-this.power<=i){
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public int getI() {
+		return this.i;
+	}
+	
+	public int getJ() {
+		return this.j;
 	}
 }
