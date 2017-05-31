@@ -17,7 +17,6 @@ public class Plateau {
 	public void inti(Scanner scan) {
 
 		String line = scan.nextLine();
-		System.out.println(line);
 		String[] lineCut = line.split(" ");
 		this.nbPlayer = Integer.parseInt(lineCut[0]);
 		this.nbTour = lineCut[1];
@@ -53,13 +52,16 @@ public class Plateau {
 	private boolean isCorrectMove(int joueur, Direction move) {
 		return false;
 	}
-	
+
 	public Direction[] mouvementsPossibles(int joueur) {
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
-		for(Direction d : Direction.getAllDirection()){
-			if(this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur].getLine() + d.dJ()].equals(Cell.FREE_CELL) ||
-					this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur].getLine() + d.dJ()].equals(Cell.POWER_BONUS) ||
-					this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur].getLine() + d.dJ()].equals(Cell.PRODUC_BONUS)) {
+		for (Direction d : Direction.getAllDirection()) {
+			if (this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
+					.getLine() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
+							.getLine() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[joueur].getColumn() + d.dI()][this.joueurs[joueur]
+							.getLine() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
 				tmp.add(d);
 			}
 		}

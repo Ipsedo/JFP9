@@ -16,4 +16,8 @@ public class Cell {
 	public void changeState(char newState) {
 		this.cellState = newState;
 	}
+	
+	public char getCellState() {
+		return this.cellState;
+	}
 }
