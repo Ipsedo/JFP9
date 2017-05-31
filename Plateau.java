@@ -14,7 +14,8 @@ public class Plateau {
 		UP, DOWN, LEFT, RIGHT
 	};
 
-	private Plateau() {
+	private Plateau(Scanner scan) {
+		this.inti(scan);
 	}
 
 	public void inti(Scanner scan) {
