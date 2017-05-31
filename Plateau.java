@@ -36,7 +36,7 @@ public class Plateau {
 		this.plateau = new Cell[this.L][this.C];
 		for (int i = 0; i < this.L; i++) {
 			line = scan.nextLine();
-			lineCut = line.split("|");
+			lineCut = line.split("\\|");
 			for (int j = 0; j < this.C; j++) {
 				this.plateau[i][j] = new Cell(lineCut[j + 1].toCharArray()[0]);
 			}
