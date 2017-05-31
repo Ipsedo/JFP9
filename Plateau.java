@@ -94,25 +94,58 @@ public class Plateau {
 		}
 		return null;
 	}
-	
+	/*
 	public Direction CheminDeLanco(){
 		Cell bonbon = this.findH();
 		ArrayList<Direction> tmp = new ArrayList<Direction>();
 		
 		if(this.joueurs[0].getI()>bonbon.getI()){
-			tmp.add(Direction.UP);
+			Direction d = Direction.UP;
+			if (this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+					.getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+				tmp.add(d);
+			}
 		}
 		if(this.joueurs[0].getI()<bonbon.getI()){
-			tmp.add(Direction.DOWN);
+			Direction d = Direction.DOWN;
+			if (this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+					.getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+				tmp.add(d);
+			}
 		}
 		if(this.joueurs[0].getJ()>bonbon.getJ()){
-			tmp.add(Direction.LEFT);
+			Direction d = Direction.LEFT;
+			if (this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+					.getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+				tmp.add(d);
+			}
 		}
 		if(this.joueurs[0].getJ()<bonbon.getJ()){
-			tmp.add(Direction.RIGHT);
+			Direction d = Direction.RIGHT;
+			if (this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+					.getJ() + d.dJ()].getCellState() == Cell.FREE_CELL
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.POWER_BONUS
+					|| this.plateau[this.joueurs[0].getI() + d.dI()][this.joueurs[0]
+							.getJ() + d.dJ()].getCellState() == Cell.PRODUC_BONUS) {
+				tmp.add(d);
+			}
 		}
-		//////////////////////////////////////
-	}
+		Object[] d = tmp.toArray();
+		return (Direction)d[(int)(Math.random()*d.length)];
+	}*/
 
 	
 	@Override
@@ -131,9 +164,10 @@ public class Plateau {
 		for (Direction d : Direction.getAllDirection()) {
 			int i = c.getI() + d.dI();
 			int j = c.getJ() + d.dJ();
-			if (i >= 0 && i < this.plateau.length && j >= 0 && j < this.plateau[i].length && (this.plateau[i][j].getCellState() == Cell.FREE_CELL
-					|| this.plateau[i][j].getCellState() == Cell.POWER_BONUS
-					|| this.plateau[i][j].getCellState() == Cell.PRODUC_BONUS)) {
+			if (i >= 0 && i < this.plateau.length && j >= 0 && j < this.plateau[i].length &&
+					(this.plateau[i][j].getCellState() == Cell.FREE_CELL
+						|| this.plateau[i][j].getCellState() == Cell.POWER_BONUS
+						|| this.plateau[i][j].getCellState() == Cell.PRODUC_BONUS)) {
 				tmp.add(this.plateau[i][j]);
 			}
 		}
@@ -141,11 +175,13 @@ public class Plateau {
 	}
    
     private void initDijkstra(int i, int j) {
-        for(Cell[] cL : this.plateau)
+        for(Cell[] cL : this.plateau) {
             for(Cell c : cL) {
                 c.setPredecesseurDijkstra(null);
                 c.setWeightDijkstra(Integer.MAX_VALUE);
             }
+        }
+        this.plateau[i][j].setWeightDijkstra(0);
     }
    
     private Cell findMinDijkstra(ArrayList<Cell> frontiere) {
@@ -183,14 +219,21 @@ public class Plateau {
             for(Cell s2 : voisins) {
                 this.majDistDijkstra(s1, s2);
                 if(s2.getI() == iFinal && s2.getJ() == jFinal) {
+                	
                     Cell parent = s2.getPredecesseur();
-                    while(parent != null) {
-                    	System.out.println("(" + s2.getI() + ", " + s2.getJ() + ")");
+                    
+                    
+                    
+                    
+                    while(parent.getPredecesseur() != null) {
                         s2 = parent;
                         parent = s2.getPredecesseur();
                     }
                     return this.plateau[iInit][jInit].getDirection(s2);
                 }
+                
+                
+                
             }
         }
         return Direction.NOP;
@@ -203,7 +246,7 @@ public class Plateau {
         int jBonusPuissance = 0;
         for(int i = 0; i < this.plateau.length; i++) {
             for(int j = 0; j < this.plateau[i].length; j++) {
-                if(this.plateau[i][j].getCellState() == Cell.POWER_BONUS) {
+                if(this.plateau[i][j].getCellState() == Cell.POWER_BONUS || this.plateau[i][j].getCellState() == Cell.PRODUC_BONUS) {
                     iBonusPuissance = i;
                     jBonusPuissance = j;
                 }

@@ -52,6 +52,7 @@ public class Cell {
     }
    
     public Direction getDirection(Cell c) {
+    	
         int dI = c.i - this.i;
         int dJ = c.j - this.j;
         if(dI > 0) {
